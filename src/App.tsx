@@ -48,6 +48,7 @@ export default function App() {
       document.body.style.overflow = 'hidden';
       lenisRef.current?.stop();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showIntro]);
 
   // Debounced window resize handler

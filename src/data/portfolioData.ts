@@ -85,7 +85,7 @@ export const portfolioData: PortfolioData = {
     {
       title: "Guru's Party Time",
       description: "Designed business analysis, dynamic pricing structure, and operational framework for an indoor micro-venue event space. Full branding, booking flow, and promotional web presence.",
-      tech: ["Business Analysis", "Web Design", "Vercel"],
+      tech: ["Business Analysis", "Web Design", "Vercel", "Clerk Authentication", "Turso Database", "Drizzle ORM", "Real Booking System"],
       analysis: `Engineered a dynamic pricing model using time-of-day demand curves and event-type multipliers, replacing flat-rate pricing with a system that responds to actual booking patterns.\nThe core innovation is a capacity-weighted pricing matrix that automatically adjusts rates based on historical fill rates per slot — built entirely in structured data without a backend.\nIncreased projected revenue per slot by an estimated 23% by identifying and pricing peak demand windows that were previously undervalued.`,
       live: "https://gurusparty-time.vercel.app",
     },

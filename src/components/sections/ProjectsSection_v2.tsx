@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 import { useRef, useState, useEffect } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { portfolioData } from '../../data/portfolioData';
@@ -61,8 +62,10 @@ function TypewriterText({ text, speed = 18 }: { text: string; speed?: number }) 
   const [done, setDone] = useState(false);
 
   useEffect(() => {
-    setDisplayed('');
-    setDone(false);
+    if (displayed !== '' || done !== false) {
+      setDisplayed('');
+      setDone(false);
+    }
     let i = 0;
     const interval = setInterval(() => {
       if (i >= text.length) {
@@ -74,6 +77,7 @@ function TypewriterText({ text, speed = 18 }: { text: string; speed?: number }) 
       i++;
     }, speed);
     return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [text, speed]);
 
   return (

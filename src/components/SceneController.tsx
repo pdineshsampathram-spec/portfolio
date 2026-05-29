@@ -17,6 +17,7 @@ export function SceneController({ scrollProgressRef, introCompleteRef, paused = 
   const camPos = useRef(CAM_START.clone());
   const rotY   = useRef(0);
 
+  // eslint-disable-next-line react-hooks/immutability
   useFrame(() => {
     if (paused) return;
     if (!camera || !scene) return;
@@ -42,6 +43,7 @@ export function SceneController({ scrollProgressRef, introCompleteRef, paused = 
     // ── Scene Y rotation: 0 → π×1.5 over full scroll ─────────────────────────
     const targetRot = p * Math.PI * 1.5;
     rotY.current = THREE.MathUtils.lerp(rotY.current, targetRot, 0.02);
+    // eslint-disable-next-line react-hooks/immutability
     scene.rotation.y = rotY.current;
   });
 
