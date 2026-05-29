@@ -19,14 +19,14 @@ const CARD_STYLE: React.CSSProperties = {
   ].join(', '),
 };
 
-const PROFICIENCY_BARS = [
-  { label: 'Python', pct: 50 },
-  { label: 'C++', pct: 70 },
-  { label: 'Java', pct: 30 },
-  { label: 'SQL', pct: 70 },
-  { label: 'C', pct: 60 },
-  { label: 'AI Workflow Automation', pct: 85 },
-];
+const CATEGORY_LABELS: Record<string, string> = {
+  languages: 'LANGUAGES',
+  ai_automation: 'AI & AUTOMATION',
+  full_stack: 'FULL STACK',
+  tools: 'TOOLS & PLATFORMS',
+  web: 'WEB TECHNOLOGIES',
+  other: 'OTHER SYSTEMS',
+};
 
 // ── Per-category tag styles (spec-exact) ─────────────────────────────
 const TAG_STYLES: Record<string, React.CSSProperties> = {
@@ -38,6 +38,10 @@ const TAG_STYLES: Record<string, React.CSSProperties> = {
     background: 'rgba(180,120,255,0.08)', color: '#B478FF',
     border: '1px solid rgba(180,120,255,0.15)',
   },
+  full_stack: {
+    background: 'rgba(255,107,107,0.08)', color: '#FF6B6B',
+    border: '1px solid rgba(255,107,107,0.15)',
+  },
   tools: {
     background: 'rgba(255,209,102,0.08)', color: '#FFD166',
     border: '1px solid rgba(255,209,102,0.15)',
@@ -45,6 +49,10 @@ const TAG_STYLES: Record<string, React.CSSProperties> = {
   web: {
     background: 'rgba(0,255,178,0.07)', color: '#00FFB2',
     border: '1px solid rgba(0,255,178,0.12)',
+  },
+  other: {
+    background: 'rgba(100,200,255,0.08)', color: '#64C8FF',
+    border: '1px solid rgba(100,200,255,0.15)',
   },
 };
 
@@ -178,83 +186,57 @@ export function SkillsSection({ sectionRef }: { sectionRef: React.RefObject<HTML
             initial="hidden"
             animate={isInView ? 'visible' : 'hidden'}
           >
-            {/* ── LEFT: skill bars + tag groups */}
+            {/* ── LEFT: skill tag groups */}
             <motion.div
-              style={{ display: 'flex', flexDirection: 'column', gap: 28 }}
+              style={{ display: 'flex', flexDirection: 'column', gap: 24 }}
               variants={localGridItemVariants}
             >
-              {/* Proficiency bars */}
               <div>
                 <h3 style={{
                   fontSize: 10, fontWeight: 600, color: '#F0F4FF',
                   letterSpacing: '0.18em', textTransform: 'uppercase',
                   borderBottom: '1px solid rgba(100,200,255,0.08)',
-                  paddingBottom: 10, marginBottom: 16,
+                  paddingBottom: 10, marginBottom: 20,
                   fontFamily: 'JetBrains Mono, monospace',
-                }}>SKILL PROFICIENCY</h3>
+                }}>TECHNICAL CAPABILITIES MATRIX</h3>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                  {PROFICIENCY_BARS.map((bar, i) => (
-                    <div key={bar.label}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, marginBottom: 5 }}>
-                        <span style={{ color: 'rgba(200,220,255,0.55)' }}>{bar.label}</span>
-                        <span style={{ color: '#64C8FF', fontFamily: 'JetBrains Mono, monospace', fontSize: 10 }}>
-                          {bar.pct}%
-                        </span>
-                      </div>
-                      <div style={{ height: 3, width: '100%', borderRadius: 99, background: 'rgba(100,200,255,0.07)', position: 'relative', overflow: 'hidden' }}>
-                        <div
-                          style={{
-                            height: '100%', borderRadius: 99,
-                            background: 'linear-gradient(90deg, #64C8FF, #B478FF)',
-                            boxShadow: '0 0 10px rgba(100,200,255,0.4)',
-                            width: isInView ? `${bar.pct}%` : '0%',
-                            transition: `width 1.3s cubic-bezier(0.16, 1, 0.3, 1) ${0.3 + i * 0.09}s`,
-                          }}
-                        />
-                      </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+                  {(Object.entries(portfolioData.skills) as [string, string[]][]).map(([cat, items]) => (
+                    <div key={cat}>
+                      <span style={{
+                        fontSize: 9, color: 'rgba(100,200,255,0.4)',
+                        letterSpacing: '0.18em', textTransform: 'uppercase',
+                        display: 'block', marginBottom: 8,
+                        fontFamily: 'JetBrains Mono, monospace',
+                      }}>
+                        {CATEGORY_LABELS[cat] || cat.replace('_', ' ').toUpperCase()}
+                      </span>
+                      <motion.div
+                        style={{ display: 'flex', flexWrap: 'wrap', gap: 6, willChange: 'filter, transform, opacity' }}
+                        variants={localTagsContainerVariants}
+                        initial="hidden"
+                        animate={isInView ? 'visible' : 'hidden'}
+                      >
+                        {items.map(skill => (
+                          <motion.span
+                            key={skill}
+                            style={{
+                              padding: '5px 11px', borderRadius: 8, fontSize: 10,
+                              fontFamily: 'JetBrains Mono, monospace', cursor: 'none',
+                              willChange: 'filter, transform, opacity',
+                              ...TAG_STYLES[cat],
+                            }}
+                            variants={localTagItemVariants}
+                            whileHover={{ scale: 1.08, y: -2 }}
+                            transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+                          >
+                            {skill}
+                          </motion.span>
+                        ))}
+                      </motion.div>
                     </div>
                   ))}
                 </div>
-              </div>
-
-              {/* Skill tag groups */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-                {(Object.entries(portfolioData.skills) as [string, string[]][]).map(([cat, items]) => (
-                  <div key={cat}>
-                    <span style={{
-                      fontSize: 9, color: 'rgba(200,220,255,0.2)',
-                      letterSpacing: '0.18em', textTransform: 'uppercase',
-                      display: 'block', marginBottom: 8,
-                      fontFamily: 'JetBrains Mono, monospace',
-                    }}>
-                      {cat.replace('_', ' ')}
-                    </span>
-                    <motion.div
-                      style={{ display: 'flex', flexWrap: 'wrap', gap: 6, willChange: 'filter, transform, opacity' }}
-                      variants={localTagsContainerVariants}
-                      initial="hidden"
-                      animate={isInView ? 'visible' : 'hidden'}
-                    >
-                      {items.map(skill => (
-                        <motion.span
-                          key={skill}
-                          style={{
-                            padding: '5px 11px', borderRadius: 8, fontSize: 10,
-                            fontFamily: 'JetBrains Mono, monospace', cursor: 'none',
-                            willChange: 'filter, transform, opacity',
-                            ...TAG_STYLES[cat],
-                          }}
-                          variants={localTagItemVariants}
-                          whileHover={{ scale: 1.08, y: -2 }}
-                          transition={{ type: 'spring', stiffness: 400, damping: 20 }}
-                        >
-                          {skill}
-                        </motion.span>
-                      ))}
-                    </motion.div>
-                  </div>
-                ))}
               </div>
             </motion.div>
 

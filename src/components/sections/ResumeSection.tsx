@@ -253,8 +253,9 @@ export function ResumeSection({ sectionRef }: ResumeProps) {
               <ResumeBlock label="Core Skills" color="#64C8FF" isInView={isInView} delay={0.3}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                   {[
-                    { cat: 'Languages',  skills: 'C++ · Python · C · SQL · JSON',             color: '#64C8FF' },
+                    { cat: 'Languages',  skills: 'C++ · Python · Java · SQL · C · JSON',             color: '#64C8FF' },
                     { cat: 'AI & Automation',  skills: 'Google Gemini API · Prompt Engineering · AI Workflow Automation · LLM Integration', color: '#B478FF' },
+                    { cat: 'Full Stack', skills: 'React · Next.js · Node.js · Turso · Drizzle ORM', color: '#FF6B6B' },
                     { cat: 'Tools & Platforms', skills: 'n8n · Make.com · Automation Anywhere · Antigravity · Vercel · Render · Cursor · VS Code', color: '#FFD166' },
                     { cat: 'Web Technologies',  skills: 'HTML5 · CSS3 · Bootstrap · Responsive Design', color: '#00FFB2' },
                     { cat: 'Other Systems',     skills: 'Google Workspace Automation (Sheets/Docs)',  color: '#64C8FF' },

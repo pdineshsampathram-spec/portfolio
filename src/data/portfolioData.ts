@@ -11,8 +11,10 @@ export interface PortfolioData {
   skills: {
     languages: string[];
     ai_automation: string[];
+    full_stack: string[];
     tools: string[];
     web: string[];
+    other: string[];
   };
   projects: Array<{
     title: string;
@@ -47,12 +49,22 @@ export const portfolioData: PortfolioData = {
     linkedin: "https://www.linkedin.com/in/dinesh--polimera",
   },
   skills: {
-    languages: ["C++", "Python", "C", "SQL", "JSON", "JAVA"],
+    languages: ["C++", "Python", "Java", "SQL", "C", "JSON"],
     ai_automation: ["Google Gemini API", "Prompt Engineering", "AI Workflow Automation", "LLM Integration"],
-    tools: ["n8n", "Make.com", "Automation Anywhere", "Antigravity", "Vercel", "Render", "Cursor"],
-    web: ["HTML5", "CSS3", "Bootstrap", "Responsive Design"]
+    full_stack: ["React", "Next.js", "Node.js", "Turso", "Drizzle ORM"],
+    tools: ["n8n", "Make.com", "Automation Anywhere", "Antigravity", "Vercel", "Render", "Cursor", "VS Code"],
+    web: ["HTML5", "CSS3", "Bootstrap", "Responsive Design"],
+    other: ["Google Workspace Automation (Sheets/Docs)"]
   },
   projects: [
+    {
+      title: "Guru's Party Time",
+      description: "Full-stack event booking and management platform with role-based admin dashboard, real-time booking system, and secure authentication.",
+      tech: ["Next.js", "TypeScript", "Clerk", "Turso", "Drizzle ORM", "Tailwind"],
+      analysis: `Engineered a dynamic pricing model using time-of-day demand curves and event-type multipliers, replacing flat-rate pricing with a system that responds to actual booking patterns.\nThe core innovation is a capacity-weighted pricing matrix that automatically adjusts rates based on historical fill rates per slot — built entirely in structured data without a backend.\nIncreased projected revenue per slot by an estimated 23% by identifying and pricing peak demand windows that were previously undervalued.`,
+      live: "https://gurusparty-time.vercel.app",
+      github: "https://github.com/pdineshsampathram-spec/portfolio",
+    },
     {
       title: "CampusHub 2.0 – Smart Campus Platform",
       description: "Full-stack smart campus platform with AI-powered collaboration. Built StudySync to match students for study groups and integrated a Gemini-powered assistant for academic support.",
@@ -81,13 +93,6 @@ export const portfolioData: PortfolioData = {
       tech: ["n8n", "APIs", "LLMs", "Automation"],
       analysis: `Built a composable workflow architecture in n8n where each automation is a self-contained module — RSS ingestion, LLM summarization, and email dispatch are independent nodes that can be rewired without breaking other flows.\nThe critical design choice was implementing idempotency keys on each workflow run, preventing duplicate sends even when webhook retries fire — a production-grade consideration rarely seen in portfolio projects.\nProcesses and delivers curated AI-generated briefings to subscribers daily, demonstrating end-to-end automation from raw data ingestion to personalized content delivery.`,
       github: "https://github.com/pdineshsampathram-spec/n8n-ai-automation-workflows.git",
-    },
-    {
-      title: "Guru's Party Time",
-      description: "Designed business analysis, dynamic pricing structure, and operational framework for an indoor micro-venue event space. Full branding, booking flow, and promotional web presence.",
-      tech: ["Business Analysis", "Web Design", "Vercel", "Clerk Authentication", "Turso Database", "Drizzle ORM", "Real Booking System"],
-      analysis: `Engineered a dynamic pricing model using time-of-day demand curves and event-type multipliers, replacing flat-rate pricing with a system that responds to actual booking patterns.\nThe core innovation is a capacity-weighted pricing matrix that automatically adjusts rates based on historical fill rates per slot — built entirely in structured data without a backend.\nIncreased projected revenue per slot by an estimated 23% by identifying and pricing peak demand windows that were previously undervalued.`,
-      live: "https://gurusparty-time.vercel.app",
     },
   ],
   education: {

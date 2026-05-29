@@ -257,7 +257,9 @@ export function HeroSection({ sectionRef, ready }: HeroProps) {
               {[
                 `📍 ${portfolioData.hero.location}`,
                 `🎓 CGPA ${portfolioData.education.cgpa}`,
-                `⚡ ${portfolioData.projects.length} PROJECTS`,
+                `⚡ 5 Production Projects`,
+                `⚡ 10+ AI Workflows Built`,
+                `⚡ 1000+ Automation Runs`,
               ].map(label => (
                 <motion.span
                   key={label}
