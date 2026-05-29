@@ -262,6 +262,7 @@ export function ContactSection({ sectionRef }: { sectionRef: React.RefObject<HTM
 
               <motion.form
                 onSubmit={handleSubmit}
+                noValidate
                 style={{ display: 'flex', flexDirection: 'column', gap: 16 }}
               >
                 <motion.div variants={{ hidden: { opacity: 0, y: 14 }, visible: { opacity: 1, y: 0, transition: { duration: 0.65, ease: EXPO } } }}>

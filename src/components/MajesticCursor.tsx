@@ -88,6 +88,11 @@ export function MajesticCursor() {
 
     // ── data-cursor hover scanning ──────────────────────────────────
     const scanElements = () => {
+      // Force cursor: none on all elements to override browser and UA defaults
+      document.querySelectorAll('*').forEach((el) => {
+        (el as HTMLElement).style.cursor = 'none';
+      });
+
       document.querySelectorAll<HTMLElement>('[data-cursor], a, button, input, textarea').forEach(el => {
         el.addEventListener('mouseenter', () => {
           const attr = el.getAttribute('data-cursor');
@@ -99,6 +104,11 @@ export function MajesticCursor() {
           else applyState('hover');
         });
         el.addEventListener('mouseleave', () => applyState('default'));
+      });
+
+      // Prevent native browser validation bubbles which reset the cursor
+      document.querySelectorAll('input, textarea').forEach((input) => {
+        input.addEventListener('invalid', (e) => e.preventDefault());
       });
     };
 

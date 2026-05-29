@@ -34,32 +34,27 @@
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    RESET & BASE
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-*, *::before, *::after {
+/* Force cursor:none on ALL elements including form inputs */
+*, *::before, *::after,
+input, textarea, button, select, a, label,
+input:focus, textarea:focus, button:focus {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  cursor: none !important; /* CustomCursor owns all cursor rendering */
+  cursor: none !important;
 }
 
-html {
+html, body {
   background: var(--bg);
   color: #cbd5e1;
   font-family: 'Inter', system-ui, sans-serif;
   overflow-x: hidden;
   scroll-behavior: auto; /* Lenis handles smooth scroll — native smooth-scroll must be off */
+  cursor: none !important;
 }
 
 body {
-  background: var(--bg);
   min-height: 100vh;
-  overflow-x: hidden;
-  /* Hide default cursor — we use CustomCursor */
-  cursor: none;
-}
-
-/* Restore default cursor inside inputs/textareas */
-input, textarea, select, button, a {
-  cursor: none;
 }
 
 #root {
