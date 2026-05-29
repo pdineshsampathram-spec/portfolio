@@ -1,0 +1,261 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   CSS CUSTOM PROPERTIES — COSMOS DESIGN SYSTEM
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+:root {
+  /* ── New palette ── */
+  --c-blue:    #64C8FF;                  /* ice blue  — primary accent     */
+  --c-violet:  #B478FF;                  /* violet    — hover / interactive */
+  --c-mint:    #00FFB2;                  /* mint      — success / CTA       */
+  --c-amber:   #FFD166;                  /* amber     — skill tags / warn   */
+  --c-coral:   #FF6B6B;                  /* coral     — error states        */
+  --c-white:   #F0F4FF;                  /* cool white — headings           */
+  --c-dim:     rgba(200,220,255,0.45);   /* body text                       */
+  --c-surface: rgba(8,10,18,0.88);       /* card bg                         */
+
+  /* ── Legacy aliases (keep so any remaining var(--green)/var(--cyan) in JSX still resolve) ── */
+  --green:     var(--c-blue);            /* was #00FF66 → now ice-blue      */
+  --cyan:      var(--c-blue);            /* was #A7FFEB → now ice-blue      */
+
+  /* ── Base tokens ── */
+  --bg:        #05060f;
+  --surface:   var(--c-surface);
+  --border:    rgba(100,200,255,0.10);
+  --glow-blue: rgba(100,200,255,0.35);
+  --glow-violet: rgba(180,120,255,0.30);
+  /* keep legacy names pointing to new glow */
+  --glow-green: var(--glow-blue);
+  --glow-cyan:  var(--glow-blue);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   RESET & BASE
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  cursor: none !important; /* CustomCursor owns all cursor rendering */
+}
+
+html {
+  background: var(--bg);
+  color: #cbd5e1;
+  font-family: 'Inter', system-ui, sans-serif;
+  overflow-x: hidden;
+  scroll-behavior: auto; /* Lenis handles smooth scroll — native smooth-scroll must be off */
+}
+
+body {
+  background: var(--bg);
+  min-height: 100vh;
+  overflow-x: hidden;
+  /* Hide default cursor — we use CustomCursor */
+  cursor: none;
+}
+
+/* Restore default cursor inside inputs/textareas */
+input, textarea, select, button, a {
+  cursor: none;
+}
+
+#root {
+  position: relative;
+  min-height: 100vh;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   CRT SCANLINE OVERLAY (fixed, above canvas, below HUD)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.03) 2px,
+    rgba(0, 0, 0, 0.03) 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.4;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   SCROLLBAR
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 255, 102, 0.3);
+  border-radius: 2px;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   GLITCH TEXT ANIMATION
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+@keyframes glitch1 {
+  0%, 100% { clip-path: inset(0 0 95% 0); transform: translate(-2px, 0); }
+  20% { clip-path: inset(40% 0 40% 0); transform: translate(2px, 0); }
+  40% { clip-path: inset(80% 0 5% 0); transform: translate(-1px, 0); }
+  60% { clip-path: inset(20% 0 70% 0); transform: translate(3px, 0); }
+  80% { clip-path: inset(60% 0 20% 0); transform: translate(-2px, 0); }
+}
+
+@keyframes glitch2 {
+  0%, 100% { clip-path: inset(85% 0 5% 0); transform: translate(2px, 0); color: var(--cyan); }
+  25% { clip-path: inset(15% 0 70% 0); transform: translate(-3px, 0); }
+  50% { clip-path: inset(50% 0 35% 0); transform: translate(1px, 0); color: var(--green); }
+  75% { clip-path: inset(5% 0 80% 0); transform: translate(-1px, 0); }
+}
+
+.glitch-text {
+  position: relative;
+}
+
+.glitch-text.glitching::before,
+.glitch-text.glitching::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.glitch-text.glitching::before {
+  color: var(--green);
+  animation: glitch1 0.3s steps(1) infinite;
+}
+
+.glitch-text.glitching::after {
+  color: var(--cyan);
+  animation: glitch2 0.4s steps(1) infinite;
+  animation-delay: 0.1s;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   TYPOGRAPHY UTILITIES
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* ── Typography utilities (new palette) ── */
+.text-blue   { color: var(--c-blue);   }
+.text-violet { color: var(--c-violet); }
+.text-mint   { color: var(--c-mint);   }
+.text-amber  { color: var(--c-amber);  }
+.text-white  { color: var(--c-white);  }
+/* legacy aliases */
+.text-green  { color: var(--c-blue);   }
+.text-cyan   { color: var(--c-blue);   }
+
+.glow-blue {
+  text-shadow: 0 0 8px var(--glow-blue), 0 0 20px rgba(100,200,255,0.2);
+}
+/* legacy alias */
+.glow-green { text-shadow: 0 0 8px var(--glow-blue), 0 0 20px rgba(100,200,255,0.2); }
+
+.border-glow {
+  box-shadow: 0 0 20px rgba(0, 255, 102, 0.06), inset 0 0 12px rgba(0, 255, 102, 0.03);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   GLASS PANEL
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.glass {
+  background: var(--surface);
+  backdrop-filter: blur(16px) saturate(120%);
+  -webkit-backdrop-filter: blur(16px) saturate(120%);
+  border: 1px solid var(--border);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   TERMINAL INPUT STYLES
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.terminal-field {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  color: var(--green);
+  border: 1px solid rgba(0, 255, 102, 0.2);
+  padding: 10px 14px;
+  border-radius: 3px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  caret-color: var(--green);
+  resize: none;
+}
+
+.terminal-field:focus {
+  border-color: var(--green);
+  box-shadow: 0 0 12px rgba(0, 255, 102, 0.25);
+}
+
+.terminal-field::placeholder {
+  color: rgba(0, 255, 102, 0.25);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   SKILL BAR ANIMATION
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.skill-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--c-blue), var(--c-violet));
+  border-radius: 2px;
+  width: 0%;
+  transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 0 8px rgba(100,200,255,0.4);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   LENIS SCROLL CLASS (set by Lenis)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* Aurora drift keyframes */
+@keyframes drift1 {
+  0%   { transform: translate(0,0) scale(1); }
+  100% { transform: translate(-5vw,4vh) scale(1.12); }
+}
+@keyframes drift2 {
+  0%   { transform: translate(0,0) scale(1.05); }
+  100% { transform: translate(4vw,-6vh) scale(0.95); }
+}
+@keyframes drift3 {
+  0%   { transform: translate(0,0); }
+  100% { transform: translate(3vw,5vh) scale(1.08); }
+}
+@keyframes drift4 {
+  0%   { transform: translate(0,0) scale(1); }
+  100% { transform: translate(-4vw,-5vh) scale(1.1); }
+}
+
+@keyframes nameGlitch {
+  0%   { transform:translate(0,0);    clip-path:inset(0 0 100% 0); }
+  15%  { transform:translate(-3px,0); clip-path:inset(15% 0 70% 0); color:#64C8FF; }
+  30%  { transform:translate(3px,0);  clip-path:inset(60% 0 15% 0); color:#B478FF; }
+  45%  { transform:translate(-1px,0); clip-path:inset(30% 0 45% 0); }
+  60%  { transform:translate(0,0);    clip-path:inset(0 0 0 0); }
+  100% { transform:translate(0,0); }
+}
+
+.glitch-once {
+  animation: nameGlitch 0.22s steps(1) 1 forwards;
+}
